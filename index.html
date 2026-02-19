@@ -3,26 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vetinuity Scheduling - Legal</title>
+    <title>SMS Notifications Opt-In - Vetinuity Scheduling</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a2e; background: #f8f9fa; line-height: 1.7; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .container { text-align: center; padding: 2rem; }
-        h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
-        p { color: #6b7280; margin-bottom: 2rem; }
-        .links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        a { display: inline-block; padding: 0.75rem 1.5rem; background: #4f46e5; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background 0.2s; }
-        a:hover { background: #4338ca; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a2e; background: #f0f2f5; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .header { background: #0f0f23; color: #fff; width: 100%; padding: 1.25rem 1.5rem; text-align: center; }
+        .header h1 { font-size: 1.25rem; font-weight: 600; }
+        .header p { font-size: 0.875rem; color: #a5b4fc; margin-top: 0.25rem; }
+        .main { max-width: 520px; width: 100%; padding: 1.5rem; margin-top: 1.5rem; }
+        .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.25rem; }
+        .card h2 { font-size: 1.125rem; margin-bottom: 1rem; color: #0f0f23; }
+        .card h3 { font-size: 0.9375rem; margin-bottom: 0.5rem; color: #374151; }
+        .info-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; font-size: 0.9375rem; color: #374151; }
+        .info-row .icon { font-size: 1.125rem; width: 1.5rem; text-align: center; }
+        .phone-display { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.75rem 1rem; font-size: 1rem; color: #1a1a2e; margin: 0.75rem 0 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .phone-display .icon { color: #6b7280; }
+        .divider { border: none; border-top: 1px solid #e5e7eb; margin: 1.25rem 0; }
+        .message-types { list-style: none; padding: 0; }
+        .message-types li { padding: 0.4rem 0; padding-left: 1.5rem; position: relative; font-size: 0.9375rem; color: #374151; }
+        .message-types li::before { content: "✓"; position: absolute; left: 0; color: #059669; font-weight: 700; }
+        .disclosure { background: #f9fafb; border-radius: 8px; padding: 1rem; margin: 1rem 0; font-size: 0.8125rem; color: #6b7280; line-height: 1.6; }
+        .consent-group { margin: 1.25rem 0; }
+        .consent-label { display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; padding: 1rem; border: 2px solid #e5e7eb; border-radius: 8px; transition: border-color 0.2s; }
+        .consent-label:hover { border-color: #a5b4fc; }
+        .consent-label.checked { border-color: #4f46e5; background: #eef2ff; }
+        .consent-label input[type="checkbox"] { margin-top: 0.2rem; width: 1.25rem; height: 1.25rem; accent-color: #4f46e5; flex-shrink: 0; }
+        .consent-label span { font-size: 0.9375rem; color: #1a1a2e; }
+        .consent-label a { color: #4f46e5; text-decoration: underline; }
+        .btn { display: block; width: 100%; padding: 0.875rem; background: #4f46e5; color: #fff; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; text-align: center; }
+        .btn:hover { background: #4338ca; }
+        .btn:disabled { background: #c7d2fe; cursor: not-allowed; }
+        .opt-out-info { text-align: center; font-size: 0.8125rem; color: #6b7280; margin-top: 1rem; line-height: 1.6; }
+        .keyword { display: inline-block; background: #0f0f23; color: #fff; padding: 0.1rem 0.4rem; border-radius: 3px; font-family: monospace; font-weight: 600; font-size: 0.8125rem; }
+        .legal-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; padding-bottom: 2rem; }
+        .legal-links a { font-size: 0.875rem; color: #4f46e5; text-decoration: none; }
+        .legal-links a:hover { text-decoration: underline; }
+        .badge { display: inline-block; background: #ecfdf5; color: #059669; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.025em; }
+        .context-banner { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 0.875rem 1rem; margin-bottom: 1.25rem; font-size: 0.8125rem; color: #92400e; line-height: 1.5; }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h1>Vetinuity Scheduling</h1>
-        <p>Workforce scheduling for veterinary clinics.</p>
-        <div class="links">
+        <p>Employee SMS Notification Preferences</p>
+    </div>
+
+    <div class="main">
+        <div class="context-banner">
+            This page is part of the employee onboarding flow in the Vetinuity Scheduling platform. Employees access this screen after their manager adds them to the system.
+        </div>
+
+        <div class="card">
+            <h2>Enable SMS Notifications</h2>
+            <p style="font-size: 0.9375rem; color: #6b7280; margin-bottom: 1rem;">Get real-time text message updates about your work schedule. SMS is optional — you can always check your schedule in the app.</p>
+
+            <h3>Your Phone Number</h3>
+            <div class="phone-display">
+                <span class="icon">📱</span>
+                <span>(555) 123-4567</span>
+                <span class="badge" style="margin-left: auto;">On file</span>
+            </div>
+
+            <hr class="divider">
+
+            <h3>You will receive messages for:</h3>
+            <ul class="message-types">
+                <li>Shift callout alerts — when a shift needs coverage</li>
+                <li>Shift claim confirmations — when you or a coworker claims a shift</li>
+                <li>Schedule publications — when a new schedule is posted</li>
+                <li>Schedule changes — when your assigned shifts change</li>
+                <li>PTO request updates — approval or denial of time-off requests</li>
+                <li>Escalation notices — when shift coverage is being escalated</li>
+            </ul>
+
+            <div class="disclosure">
+                <strong>Message frequency:</strong> Varies based on scheduling activity. You may receive multiple messages per week during active scheduling periods.<br>
+                <strong>Message and data rates</strong> may apply. Contact your carrier for details.
+            </div>
+
+            <div class="consent-group">
+                <label class="consent-label" id="consentLabel">
+                    <input type="checkbox" id="consentCheckbox">
+                    <span>I agree to receive scheduling-related SMS text messages from Vetinuity on behalf of my employer. I understand that consent is not required for employment and I can opt out at any time by replying STOP. I have read the <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">SMS Terms &amp; Conditions</a>.</span>
+                </label>
+            </div>
+
+            <button class="btn" id="enableBtn" disabled>Enable SMS Notifications</button>
+
+            <div class="opt-out-info">
+                You can opt out at any time by replying <span class="keyword">STOP</span> to any message.<br>
+                Reply <span class="keyword">HELP</span> for support. Contact: <a href="mailto:support@vetinuity.com" style="color: #4f46e5;">support@vetinuity.com</a>
+            </div>
+        </div>
+
+        <div class="legal-links">
             <a href="privacy.html">Privacy Policy</a>
             <a href="terms.html">SMS Terms &amp; Conditions</a>
         </div>
     </div>
+
+    <script>
+        const checkbox = document.getElementById('consentCheckbox');
+        const btn = document.getElementById('enableBtn');
+        const label = document.getElementById('consentLabel');
+        checkbox.addEventListener('change', function() {
+            btn.disabled = !this.checked;
+            label.classList.toggle('checked', this.checked);
+        });
+        btn.addEventListener('click', function() {
+            if (checkbox.checked) {
+                alert('SMS notifications enabled! You will receive a confirmation text message shortly.');
+            }
+        });
+    </script>
 </body>
 </html>
